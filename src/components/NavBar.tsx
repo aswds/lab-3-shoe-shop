@@ -15,10 +15,10 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         <Link
           hrefLang=""
           to={""}
-          title="Sign Up"
+          title="Bucket"
           className={navbarStyles.button}
         >
-          Sign up
+          Bucket
         </Link>
 
         <Link

@@ -12,8 +12,12 @@ export const ProductsList = ({
 }: ProductListProps) => {
   return (
     <div className="listContainer">
-      {products.map((product) => (
-        <ProductItem product={product} handleAddToCart={handleAddToCart} />
+      {products.map((product, i) => (
+        <ProductItem
+          product={product}
+          handleAddToCart={handleAddToCart}
+          key={i}
+        />
       ))}
     </div>
   );

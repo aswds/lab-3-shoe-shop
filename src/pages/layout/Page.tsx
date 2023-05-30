@@ -5,8 +5,9 @@ interface PageProps extends React.PropsWithChildren {}
 
 function Page({ children }: PageProps) {
   return (
-    <div style={{ backgroundColor: "black" }}>
+    <div className="container">
       <Navbar />
+
       {children}
     </div>
   );

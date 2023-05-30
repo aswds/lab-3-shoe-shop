@@ -1,43 +1,44 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Page from "../layout/Page";
-
-interface Product {
-  name: string;
-  price: number;
-  description: string;
-}
+import "./AddProduct.css";
 
 const AddProduct: React.FC = () => {
-  const [product, setProduct] = useState<Product>({
-    name: "",
-    price: 0,
-    description: "",
-  });
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState<string>("");
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedImage(event.target.files[0]);
+    }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("image", selectedImage!);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+
     try {
-      await axios.post("/api/addProduct", product);
-      // Reset the form
-      setProduct({
-        name: "",
-        price: 0,
-        description: "",
-      });
-      alert("Product added successfully!");
+      const res = await axios.post(
+        "http://localhost:3000/api/addProduct",
+        formData
+      );
+
+      if (res.status === 200) {
+        // Reset the form
+        setName("");
+        setDescription("");
+        setPrice("");
+        // Handle success or redirect to another page
+      }
     } catch (error) {
-      console.error("Error adding product:", error);
+      console.error(error);
+      // Handle error
     }
   };
 
@@ -46,39 +47,46 @@ const AddProduct: React.FC = () => {
       <div>
         <h2>Add Product</h2>
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="inputContainer">
             <label htmlFor="name">Name:</label>
             <input
+              aria-label="Name:"
               type="text"
               id="name"
               name="name"
-              value={product.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
-          <div>
+          <div className="inputContainer">
             <label htmlFor="price">Price:</label>
             <input
-              type="number"
+              aria-label="Price:"
+              type="text"
               id="price"
               name="price"
-              value={product.price}
-              onChange={handleChange}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               required
             />
           </div>
-          <div>
+          <div className="inputContainer">
             <label htmlFor="description">Description:</label>
             <textarea
+              aria-label="Description:"
               id="description"
               name="description"
-              value={product.description}
-              onChange={handleChange}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               required
             />
           </div>
-          <button type="submit" onClick={handleSubmit}>
+          <div className="inputContainer">
+            <label htmlFor="image">Image:</label>
+            <input type="file" id="image" onChange={handleImageChange} />
+          </div>
+          <button type="submit" className="addProductButton">
             Add Product
           </button>
         </form>

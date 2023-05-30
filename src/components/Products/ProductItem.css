@@ -4,7 +4,8 @@
   background-color: black;
   color: aliceblue;
   font-size: medium;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Kanit", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 .image {
   height: 20vh;
@@ -24,7 +25,8 @@
   border-width: 0;
   padding: 20px;
   margin: 1%;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Kanit", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: bold;
 }
 
