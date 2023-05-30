@@ -3,10 +3,10 @@ name: React TS Program CI
 on:
   push:
     branches:
-      - main
+      - origin
   pull_request:
     branches:
-      - main
+      - origin
 
 jobs:
   build:
